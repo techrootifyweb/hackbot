@@ -1,43 +1,77 @@
+document.addEventListener("DOMContentLoaded", () => {
+    let savedTheme = localStorage.getItem("theme")
+    if (savedTheme) {
+        document.body.classList.add(savedTheme)
+        document.querySelector(".theme-toggle").textContent = savedTheme === "light" ? "☀️" : "🌙"
+    }
+})
+
+function toggleTheme() {
+    let body = document.body
+    let themeToggle = document.querySelector(".theme-toggle")
+
+    body.classList.toggle("dark-mode")
+    body.classList.toggle("light-mode")
+
+    if (body.classList.contains("light-mode")) {
+        themeToggle.textContent = "☀️"
+        localStorage.setItem("theme", "light")
+    } else {
+        themeToggle.textContent = "🌙"
+        localStorage.setItem("theme", "dark")
+    }
+}
+
+function toggleMenu() {
+    document.querySelector(".nav-links").classList.toggle("active")
+}
+
 document.getElementById("user-input").addEventListener("keypress", function(event) {
     if (event.key === "Enter") {
-        sendMessage();
+        sendMessage()
     }
-});
+})
 
 function sendMessage() {
-    let userInput = document.getElementById("user-input").value.trim().toLowerCase();
-    if (userInput === "") return;
+    let userInput = document.getElementById("user-input").value.trim().toLowerCase()
+    if (userInput === "") return
 
-    let chatBox = document.getElementById("chat-box");
+    let chatBox = document.getElementById("chat-box")
 
-    let userMessage = document.createElement("div");
-    userMessage.className = "user-message";
-    userMessage.innerHTML = `🕵️‍♂️ ${userInput}`;
-    chatBox.appendChild(userMessage);
+    let userMessage = document.createElement("div")
+    userMessage.className = "user-message"
+    userMessage.innerHTML = `🕵️‍♂️ ${userInput}`
+    chatBox.appendChild(userMessage)
 
-    document.getElementById("user-input").value = "";
+    document.getElementById("user-input").value = ""
 
-    let botMessage = document.createElement("div");
-    botMessage.className = "bot-message";
-    botMessage.innerHTML = '👾 <span class="typing">Thinking...</span>';
-    chatBox.appendChild(botMessage);
+    let botMessage = document.createElement("div")
+    botMessage.className = "bot-message"
+    botMessage.innerHTML = '👾 <span class="typing">Thinking...</span>'
+    chatBox.appendChild(botMessage)
 
-    chatBox.scrollTop = chatBox.scrollHeight;
+    chatBox.scrollTop = chatBox.scrollHeight
 
     setTimeout(() => {
-        let responses = generateBotResponse(userInput);
-        botMessage.remove();
+        let responses = generateBotResponse(userInput)
+        botMessage.remove()
 
         responses.forEach((response, index) => {
             setTimeout(() => {
-                let newBotMessage = document.createElement("div");
-                newBotMessage.className = "bot-message copyable";
-                newBotMessage.innerHTML = `👾 <span>${response}</span> <button class="copy-btn" onclick="copyToClipboard(this)">📋</button>`;
-                chatBox.appendChild(newBotMessage);
-                chatBox.scrollTop = chatBox.scrollHeight;
-            }, index * 2000);
-        });
-    }, 2000);
+                let newBotMessage = document.createElement("div")
+                newBotMessage.className = "bot-message"
+
+                if (response.includes("hydra") || response.includes("nmap") || response.includes("ssh") || response.includes("ftp")) {
+                    newBotMessage.innerHTML = `👾 <span>${response}</span> <button class="copy-btn" onclick="copyToClipboard(this)">📋</button>`
+                } else {
+                    newBotMessage.innerHTML = `👾 <span>${response}</span>`
+                }
+
+                chatBox.appendChild(newBotMessage)
+                chatBox.scrollTop = chatBox.scrollHeight
+            }, index * 2000)
+        })
+    }, 2000)
 }
 
 function generateBotResponse(userInput) {
@@ -94,19 +128,18 @@ function generateBotResponse(userInput) {
             "29. Save Output to XML: nmap -oX output.xml target.com",
             "30. Save Output in All Formats: nmap -oA output target.com"
         ],
-
         "bye": ["Goodbye!", "Stay anonymous, stay secure."]
-    };
+    }
     
-    return responseSets[userInput] || ["Sorry, I'm not familiar with this tool."];
+    return responseSets[userInput] || ["Sorry, I'm not familiar with this tool."]
 }
 
 function copyToClipboard(button) {
-    let textToCopy = button.previousElementSibling.textContent;
+    let textToCopy = button.previousElementSibling.textContent
     navigator.clipboard.writeText(textToCopy).then(() => {
-        button.textContent = "✅";
+        button.textContent = "✅"
         setTimeout(() => {
-            button.textContent = "📋";
-        }, 1500);
-    }).catch(err => console.error("Failed to copy: ", err));
+            button.textContent = "📋"
+        }, 1500)
+    }).catch(err => console.error("Failed to copy: ", err))
 }
