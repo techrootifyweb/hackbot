@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="logo.png">
+    <title>Tech Rootify</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="chat-container">
+        <div class="chat-box" id="chat-box">
+            <div class="bot-message">👾 <span class="typing">Write in lowercase and mention only the tool name.</span></div>
+            <div class="bot-message">👾 <span class="typing">Please share the tool name to know commands for, like hydra, nmap, etc.</span></div>
+        </div>
+        <div class="input-container">
+            <input type="text" id="user-input" placeholder="Type your tool name..." autofocus>
+            <button onclick="sendMessage()">Send</button>
+        </div>
+    </div>
+
+    <footer>
+        <p>
+            &copy; <script>document.write(new Date().getFullYear());</script> 
+            <a href="https://www.techrootify.com/" target="_blank">Tech Rootify</a> | Stay Anonymous, Stay Secure
+        </p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
