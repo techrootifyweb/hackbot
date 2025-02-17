@@ -61,11 +61,7 @@ function sendMessage() {
                 let newBotMessage = document.createElement("div")
                 newBotMessage.className = "bot-message"
 
-                if (response.includes("hydra") || response.includes("nmap") || response.includes("ssh") || response.includes("ftp")) {
-                    newBotMessage.innerHTML = `👾 <span>${response}</span> <button class="copy-btn" onclick="copyToClipboard(this)">📋</button>`
-                } else {
-                    newBotMessage.innerHTML = `👾 <span>${response}</span>`
-                }
+                newBotMessage.innerHTML = `👾 <span>${response}</span>`
 
                 chatBox.appendChild(newBotMessage)
                 chatBox.scrollTop = chatBox.scrollHeight
@@ -97,8 +93,8 @@ function generateBotResponse(userInput) {
         // nmap
         "nmap": [
             "Here are 30 common Nmap commands:",
-            "2. Scan Multiple Targets:nmap target1.com target2.com",
             "1. Basic Scan: nmap target.com",
+            "2. Scan Multiple Targets: nmap target1.com target2.com",
             "3. Scan IP Range: nmap 192.168.1.1-100",
             "4. Scan Subnet: nmap 192.168.1.0/24",
             "5. Scan Specific Ports: nmap -p 80,443 target.com",
@@ -128,18 +124,44 @@ function generateBotResponse(userInput) {
             "29. Save Output to XML: nmap -oX output.xml target.com",
             "30. Save Output in All Formats: nmap -oA output target.com"
         ],
+
+        // wireshark
+        "wireshark": [
+            "Here are 30 common Wireshark filters:",
+            "1. Filter by IP: ip.addr == 192.168.1.1",
+            "2. Filter by Source IP: ip.src == 192.168.1.1",
+            "3. Filter by Destination IP: ip.dst == 192.168.1.1",
+            "4. Filter by Protocol: tcp, udp, http, dns, etc.",
+            "5. Filter by Port: tcp.port == 80",
+            "6. Filter by Source Port: tcp.srcport == 80",
+            "7. Filter by Destination Port: tcp.dstport == 80",
+            "8. Filter by MAC Address: eth.addr == 00:0c:29:xx:xx:xx",
+            "9. Filter by HTTP Request Method: http.request.method == \"GET\"",
+            "10. Filter by HTTP Response Code: http.response.code == 200",
+            "11. Filter by Packet Length: frame.len > 100",
+            "12. Filter by TCP SYN Flag: tcp.flags.syn == 1",
+            "13. Filter by TCP ACK Flag: tcp.flags.ack == 1",
+            "14. Filter by TCP RST Flag: tcp.flags.reset == 1",
+            "15. Filter by TCP FIN Flag: tcp.flags.fin == 1",
+            "16. Filter by DNS Query: dns.qry.name == \"example.com\"",
+            "17. Filter by DNS Response: dns.resp.name == \"example.com\"",
+            "18. Filter by ARP Traffic: arp",
+            "19. Filter by ICMP Traffic: icmp",
+            "20. Filter by SSL/TLS Traffic: ssl",
+            "21. Filter by VoIP Traffic: sip or rtp",
+            "22. Filter by Broadcast Traffic: eth.dst == ff:ff:ff:ff:ff:ff",
+            "23. Filter by Multicast Traffic: ip.dst == 224.0.0.0/4",
+            "24. Filter by Specific TCP Stream: tcp.stream eq 5",
+            "25. Filter by HTTP Host: http.host == \"example.com\"",
+            "26. Filter by HTTP User-Agent: http.user_agent contains \"Chrome\"",
+            "27. Filter by HTTP Cookie: http.cookie contains \"sessionid\"",
+            "28. Filter by FTP Traffic: ftp",
+            "29. Filter by SMTP Traffic: smtp",
+            "30. Filter by SSH Traffic: ssh"
+        ],
+
         "bye": ["Goodbye!", "Stay anonymous, stay secure."]
     }
     
     return responseSets[userInput] || ["Sorry, I'm not familiar with this tool."]
-}
-
-function copyToClipboard(button) {
-    let textToCopy = button.previousElementSibling.textContent
-    navigator.clipboard.writeText(textToCopy).then(() => {
-        button.textContent = "✅"
-        setTimeout(() => {
-            button.textContent = "📋"
-        }, 1500)
-    }).catch(err => console.error("Failed to copy: ", err))
 }
